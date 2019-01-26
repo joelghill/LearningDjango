@@ -65,6 +65,18 @@ class Supplier(DashboardModel):
         return '{}'.format(self.name)
 
 
+class Representative(DashboardModel):
+    """
+    Model which represents an individual that represents a supplier
+    """
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
 class Component(DashboardModel):
     """
     Model which represents items which may be supplied.
