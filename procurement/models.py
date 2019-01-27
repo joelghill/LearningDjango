@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.timezone import now as timezone_now
+from django.utils.safestring import mark_safe
 
 MONTH = 30 * 24 * 60 * 60
 WEEK = 7 * 24 * 60 * 60
@@ -60,10 +61,11 @@ class Representative(DashboardModel):
     email = models.EmailField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return '{}'.format(self.name)
+        return '{} - {}'.format(self.name, self.email)
 
 
 class Supplier(DashboardModel):
+
     """
     Model which represents an individual or that represents a supplier
     """
@@ -73,6 +75,42 @@ class Supplier(DashboardModel):
             related_name='suppliers',
             blank=True)
     is_authorized = models.BooleanField()
+
+
+    def _get_email_tag(self, email):
+        """
+        Helper method to create email html tag from rep name
+        """
+        return "<div><a href=mailto:{0}>{0}</a></div>".format(email)
+
+    def get_representatives(self):
+        """
+        Method used to provide the list of representative 
+        objects to views/forms
+        """
+        return self.representatives.all()
+
+    @mark_safe
+    def get_representative_names(self):
+        """
+        Returns HTML formatted list of representative names
+        """
+        return "".join(["<div>"+rep.name+"</div>" for rep in self.representatives.all()])
+
+    get_representative_names.short_description = 'Representative Name'
+    get_representative_names.allow_tags = True
+
+
+    @mark_safe
+    def get_representative_emails(self):
+        """
+        Returns a list of HTML formatted email addresses of reps
+        """
+        return "".join([ self._get_email_tag(rep.email) for rep in self.representatives.all()])
+
+    get_representative_emails.short_description = 'Email'
+    get_representative_emails.allow_tags = True
+
 
     def __str__(self):
         return '{}'.format(self.name)

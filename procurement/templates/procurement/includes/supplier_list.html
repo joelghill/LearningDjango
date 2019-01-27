@@ -11,7 +11,7 @@
                 <thead>
                 <tr>
                     <th>Company</th>
-                    <th>Representative</th>
+                    <th>Representative Name</th>
                     <th>Email</th>
                 </tr>
                 </thead>
@@ -19,8 +19,22 @@
                 {% for supplier in supplier_results %}
                     <tr>
                         <td>{{ supplier.name }}</td>
-                        <td>{{ supplier.representative_name }}</td>
-                        <td>{{ supplier.representative_email }}</td>
+                        <td>
+                        {% for rep in supplier.get_representatives %}
+                            <div>{{rep.name}}</div>
+                        {% empty %}
+                            <div>No Name</div>
+                        {% endfor %}
+                        </td>
+                        <td>
+                        {% for rep in supplier.get_representatives %}
+                        <div>
+                            <a href="mailto:"{{rep.email}}>{{rep.email}}</a>
+                        </div>
+                        {% empty %}
+                            <div>No Contact Info</div>
+                        {% endfor %}
+                        </td>
                     </tr>
                 {% empty %}
                     <tr>

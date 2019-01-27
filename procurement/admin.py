@@ -6,9 +6,13 @@ from procurement.models import Supplier, Component, Representative
 
 
 class SupplierAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_authorized', 'updated')
+    list_display = (
+            'name', 
+            'is_authorized', 
+            'get_representative_names', 
+            'get_representative_emails', 
+            'updated')
     form = SupplierAdminForm
-    filter_horizonal = ('components',)
 
 
 class ComponentAdmin(admin.ModelAdmin):
@@ -26,7 +30,6 @@ class ComponentAdmin(admin.ModelAdmin):
             'supplier_results': component.suppliers.filter(is_authorized=True),
 
         })
-
 
 admin.site.register(Supplier, SupplierAdmin)
 admin.site.register(Representative)
