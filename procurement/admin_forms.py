@@ -32,5 +32,5 @@ class SupplierAdminForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Component
-        fields = ['name', 'representatives']
+        model = Supplier
+        fields = ['name', 'is_authorized', 'representatives']

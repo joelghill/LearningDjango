@@ -9,13 +9,14 @@ def migrate_representatives(apps, scheme_editor):
         rep = Representative();
         rep.name = supplier.representative_name
         rep.email = supplier.representative_email
-        rep.supplier = supplier
         rep.save()
+
+        supplier.representatives.add(rep)
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('procurement', '0003_representative'),
+        ('procurement', '0002_auto_20190127_1220'),
     ]
 
     operations = [
