@@ -15,6 +15,13 @@ class SupplierAdmin(admin.ModelAdmin):
     form = SupplierAdminForm
 
 
+class RepAdmin(admin.ModelAdmin):
+    list_display = (
+            'name', 
+            'email', 
+            'updated')
+
+
 class ComponentAdmin(admin.ModelAdmin):
     list_display = ('name', 'sku', 'updated')
     form = ComponentAdminForm
@@ -32,5 +39,5 @@ class ComponentAdmin(admin.ModelAdmin):
         })
 
 admin.site.register(Supplier, SupplierAdmin)
-admin.site.register(Representative)
+admin.site.register(Representative, RepAdmin)
 admin.site.register(Component, ComponentAdmin)
