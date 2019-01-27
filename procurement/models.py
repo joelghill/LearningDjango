@@ -52,26 +52,27 @@ class DashboardModel(models.Model):
         return base_string.format(quantity=quantity, units=units)
 
 
-class Supplier(DashboardModel):
+class Representative(DashboardModel):
     """
-    Model which represents an individual or organisation which supplies components
+    Model which represents an individual that represents a supplier
     """
     name = models.CharField(max_length=255)
-    representative_name = models.CharField(max_length=255, null=True, blank=True)
-    representative_email = models.EmailField(max_length=255, null=True, blank=True)
-    is_authorized = models.BooleanField()
+    email = models.EmailField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return '{}'.format(self.name)
 
 
-class Representative(DashboardModel):
+class Supplier(DashboardModel):
     """
-    Model which represents an individual that represents a supplier
+    Model which represents an individual or that represents a supplier
     """
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255, null=True, blank=True)
+    representatives = models.ManyToManyField(
+            Representative,
+            related_name='suppliers',
+            blank=True)
+    is_authorized = models.BooleanField()
 
     def __str__(self):
         return '{}'.format(self.name)

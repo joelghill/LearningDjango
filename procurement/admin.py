@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.shortcuts import render_to_response, get_object_or_404
 
-from procurement.admin_forms import ComponentAdminForm
-from procurement.models import Supplier, Component
+from procurement.admin_forms import ComponentAdminForm, SupplierAdminForm
+from procurement.models import Supplier, Component, Representative
 
 
 class SupplierAdmin(admin.ModelAdmin):
-    list_display = ('name', 'representative_name', 'representative_email', 'is_authorized', 'updated')
+    list_display = ('name', 'is_authorized', 'updated')
+    form = SupplierAdminForm
     filter_horizonal = ('components',)
 
 
@@ -28,4 +29,5 @@ class ComponentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Supplier, SupplierAdmin)
+admin.site.register(Representative)
 admin.site.register(Component, ComponentAdmin)
